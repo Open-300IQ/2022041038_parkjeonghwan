@@ -16,7 +16,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.ManyToOne;
 import com.example.demo.user.SiteUser;
-
+import java.util.Set;
+import jakarta.persistence.ManyToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -39,10 +40,13 @@ public class Question {
 
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
 	private List<Answer> answerList;
-	 @ManyToOne
-	    private SiteUser author;
+	@ManyToOne
+	private SiteUser author;
 	 
-	 private LocalDateTime modifyDate;
+	private LocalDateTime modifyDate;
+	 
+	@ManyToMany
+	Set<SiteUser> voter;
 }
 
 
