@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/user")
+
 public class UserController {
 
     private final UserService userService;
@@ -21,6 +22,10 @@ public class UserController {
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm) {
         return "signup_form";
+    }
+    @GetMapping("/login")
+    public String login() {
+        return "login_form";
     }
 
     @PostMapping("/signup")
@@ -46,6 +51,7 @@ public class UserController {
             bindingResult.reject("signupFailed", e.getMessage());
             return "signup_form";
         }
+      
         return "redirect:/";
     }
 }

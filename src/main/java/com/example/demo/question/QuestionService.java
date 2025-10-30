@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Sort;
-import com.example.demo.DataNoFoundException;
-
+import com.example.demo.DataNotFoundException;
+import com.example.demo.user.SiteUser;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ public class QuestionService {
 			return question.get();
 			
 		}else {
-			throw new DataNoFoundException("question not found");
+			throw new DataNotFoundException("question not found");
 			
 			
 		}
@@ -43,11 +43,23 @@ public class QuestionService {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         return this.questionRepository.findAll(pageable);
     }
-	 public void create(String subject, String content) {
+	 public void create(String subject, String content, SiteUser user) {
 	        Question q = new Question();
 	        q.setSubject(subject);
 	        q.setContent(content);
+	        q.setAuthor(user);
 	        q.setCreateDate(LocalDateTime.now());
 	        this.questionRepository.save(q);
+	    }
+	 
+	 public void modify(Question question, String subject, String content) {
+	        question.setSubject(subject);
+	        question.setContent(content);
+	        question.setModifyDate(LocalDateTime.now());
+	        this.questionRepository.save(question);
+	    }
+	 
+	 public void delete(Question question) {
+	        this.questionRepository.delete(question);
 	    }
 }
